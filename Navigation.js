@@ -9,9 +9,6 @@ import profile from "./Screens/ProfileScreen";
 import Login from "./Screens/LoginScreen";
 import LoginScreen from "./Screens/LoginScreen";
 import Registration from "./Screens/Registration";
-import DriverAssistant2 from "./DriverAssistant2";
-import DriverAssistant3 from "./Screens/DriverAssistant3";
-import DriverAssistant4 from "./Screens/DriverAssistant4";
 import DriverAssistant5 from "./Screens/DriverAssistant5";
 
 

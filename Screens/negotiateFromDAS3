@@ -1,0 +1,53 @@
+const negotiate = async () => {
+  try {
+    console.log("Attempting to create offer...");
+    const offer = await pc.createOffer();
+    console.log("Offer created.");
+
+    console.log("Setting local description...");
+    await pc.setLocalDescription(offer);
+    console.log("Local description set.");
+
+    console.log("Waiting for ice gathering state to be complete...");
+    await new Promise((resolve) => {
+      if (pc.iceGatheringState === "complete") {
+        console.log("ICE Gathering State is already complete.");
+        resolve();
+      } else {
+        function checkState() {
+          if (pc.iceGatheringState === "complete") {
+            pc.removeEventListener("icegatheringstatechange", checkState);
+            console.log("ICE Gathering State changed to complete.");
+            resolve();
+          }
+        }
+        pc.addEventListener("icegatheringstatechange", checkState);
+      }
+    });
+
+    const offerToSend = pc.localDescription;
+    const serverURL = "https://a43d-2402-d000-a500-1372-2c1e-d682-ccfb-77f5.ngrok-free.app";
+
+    console.log("Sending offer to server...");
+    const response = await fetch(serverURL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        sdp: offerToSend.sdp,
+        type: offerToSend.type,
+      }),
+    });
+    console.log("Offer sent to server.");
+
+    const answer = await response.json();
+
+    console.log("Setting remote description...");
+    await pc.setRemoteDescription(new RTCSessionDescription(answer));
+    console.log("Remote description set.");
+  } catch (e) {
+    console.error("Error occurred during negotiation:", e);
+    alert(e);
+  }
+};

@@ -19,7 +19,11 @@ const App = () => {
     if (!stream) {
       let s;
       try {
-        s = await mediaDevices.getUserMedia({ video: true });
+        s = await mediaDevices.getUserMedia({
+          video: {facingMode: 'environment',width: { ideal: 640 },
+          height: { ideal: 480 },frameRate: { ideal: 30, max: 30}},
+          audio: false,
+        });
         setStream(s);
       } catch (e) {
         console.error(e);

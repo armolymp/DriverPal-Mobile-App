@@ -55,8 +55,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <LiveSpeed speed={speed} />
-      <DigitalPanel value={(speed * 3.6).toFixed(2)} />
+      <DigitalPanel value={(speed * 3.6).toFixed(0)} />
       {/* You can add other components or UI elements as needed */}
     </View>
   );
@@ -69,7 +68,7 @@ const DigitalPanel = ({ value }) => {
         <SvgText
           x="50%"
           y="50%"
-          fontSize="40"
+          fontSize="200"
           textAnchor="middle"
           fill="white"
           fontFamily="Arial"
@@ -77,14 +76,6 @@ const DigitalPanel = ({ value }) => {
           {value}
         </SvgText>
       </Svg>
-    </View>
-  );
-};
-
-const LiveSpeed = ({ speed }) => {
-  return (
-    <View style={styles.liveSpeedContainer}>
-      <Text style={styles.speedText}>Current Speed: {(speed * 3.6).toFixed(2)} Kmph</Text>
     </View>
   );
 };
@@ -97,8 +88,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#1a1a1a',
   },
   digitalPanel: {
-    width: 100,
-    height: 60,
+    width: '90%',
+    height: "50%",
     backgroundColor: '#333',
     borderRadius: 8,
     justifyContent: 'center',

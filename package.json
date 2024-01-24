@@ -21,6 +21,7 @@
     "react-native-paper": "^5.10.6",
     "react-native-safe-area-context": "^4.7.2",
     "react-native-screens": "^3.25.0",
+    "react-native-svg": "^14.1.0",
     "react-native-webrtc": "^111.0.3",
     "react-native-websocket": "^1.0.2",
     "react-native-webview": "^13.6.2",

@@ -31,10 +31,32 @@ export const Navigation = () => {
           <Stack.Screen
             name={'Home'}
             component={HomePage}
+            options={{
+              title: 'Welcome to DriverPAL',
+              headerTitleAlign: 'center',
+              headerStyle: {
+                backgroundColor: '#fff',
+              },
+              headerTintColor: '#000',
+              headerTitleStyle: {
+                fontWeight: 'bold',
+              },
+            }}
           />
           <Stack.Screen
             name={'DriverAssistant'}
             component={DriverAssistant5}
+            options={{
+              title: 'Real Time Driver Assistant',
+              headerTitleAlign: 'center',
+              headerStyle: {
+                backgroundColor: '#fff',
+              },
+              headerTintColor: '#000',
+              headerTitleStyle: {
+                fontWeight: 'bold',
+              },
+            }}
           />
           <Stack.Screen
             name={'LiveSpeed'}

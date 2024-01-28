@@ -27,13 +27,21 @@ const Registration = ({ navigation }) => {
   // }, []);
 
   const handleRegister = () => {
-    if (password !== confirmPassword) {
+    if (
+      !backendFirstName ||
+      !backendLastName ||
+      !backendEmail ||
+      !password ||
+      !confirmPassword
+    ) {
+      alert("Please fill in all the fields.");
+    } else if (password !== confirmPassword) {
       alert("Passwords do not match.");
     } else {
       fetch("http://192.168.1.194:5000/register", {
         method: "POST",
         headers: {
-          "Accept": "application/json",
+          Accept: "application/json",
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -42,16 +50,19 @@ const Registration = ({ navigation }) => {
           email: backendEmail,
           password: password,
         }),
-      }).then(response => response.text()).then(data => {
-        if (data === "S1000") {
-          alert("Registration successful");
-          navigation.navigate("Home");
-          console.log("Registration successful");
-        } else if (data === "E1000") alert("User already exist");
-        else alert("Error please try again later!");
-      });
+      })
+        .then((response) => response.text())
+        .then((data) => {
+          if (data === "S1000") {
+            alert("Registration successful");
+            navigation.navigate("Home");
+            console.log("Registration successful");
+          } else if (data === "E1000") alert("User already exists");
+          else alert("Error, please try again later!");
+        });
     }
   };
+  
 
   return (
     <View style={styles.container}>

@@ -1,67 +1,77 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, TouchableOpacity, Text } from "react-native";
-import { BASE_URL } from "./urlManager";
+import { Alert } from 'react-native';
 
 const LoginScreen = ({ navigation }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
-  // Replace 'your_base_url' with your actual base URL
-  fetch("http://192.168.1.194:5000/login", {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      email: email, // Make sure email and password are defined and populated
-      password: password,
-    }),
-  })
-    .then(response => response.text())
-    .then(data => {
-      if (data === "S1000") {
-        setIsLoggedIn(true);
-        // After successful login, reset the navigation stack
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'Home' }],
-        });
-      } else {
-        setIsLoggedIn(false);
-        console.log("User not found");
-      }
-    })
-    .catch(error => {
-      console.error("Login error:", error);
-      // Handle the error appropriately
-    });
-};
+  const isValidEmail = (email) => {
+    return email.includes('@');
+  };
 
+  const handleLogin = () => {
+    if (email.trim() === '' || password.trim() === '') {
+      Alert.alert('Validation Error', 'Please fill in both email and password fields.');
+      return;
+    }
+  
+    if (!isValidEmail(email)) {
+      Alert.alert('Validation Error', 'Please enter a valid email address.');
+      return;
+    }
+    
+    fetch("http://192.168.1.194:5000/login", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
+    })
+      .then(response => response.text())
+      .then(data => {
+        if (data === "S1000") {
+          setIsLoggedIn(true);
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'Home' }],
+          });
+        } else {
+          setIsLoggedIn(false);
+          console.log("User not found");
+          Alert.alert("Login Failed", "User not found. Please check your credentials.");
+        }
+      })
+      .catch(error => {
+        console.error("Login error:", error);
+      });
+  };
 
   return (
     <View style={styles.container}>
       <TextInput
         style={styles.input}
         placeholder="Email"
-        placeholderTextColor={"black"}
+        placeholderTextColor="black"
         onChangeText={(text) => setEmail(text)}
         value={email}
       />
       <TextInput
         style={styles.input}
         placeholder="Password"
-        placeholderTextColor={"black"}
+        placeholderTextColor="black"
         onChangeText={(text) => setPassword(text)}
         value={password}
-        secureTextEntry={true} // To hide the password characters
+        secureTextEntry={true}
       />
-      <Button title="Login" onPress={navigation.reset({
-          index: 0,
-          routes: [{ name: 'Home' }],
-        })} />
+      <TouchableOpacity style={styles.button} onPress={() => handleLogin()}>
+        <Text style={styles.buttonText}>Login</Text>
+      </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Registration')}>
         <Text style={styles.link}>Register Now</Text>
       </TouchableOpacity>
@@ -73,15 +83,35 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    paddingHorizontal: 20,
+    padding: 16,
+    backgroundColor: '#fff',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 16,
+    textAlign: 'center',
   },
   input: {
-    color:'black',
-    height: 40,
+    color: 'black',
+    height: 54,
     borderColor: 'gray',
     borderWidth: 1,
-    marginBottom: 20,
+    marginBottom: 16,
     paddingHorizontal: 10,
+    borderRadius: 10,
+  },
+  button: {
+    backgroundColor: '#660099',
+    paddingVertical: 15,
+    borderRadius: 10,
+    marginTop: 16,
+  },
+  buttonText: {
+    color: 'white',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 16,
   },
   link: {
     marginTop: 16,

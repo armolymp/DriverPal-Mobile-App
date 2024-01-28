@@ -20,8 +20,10 @@ const App = () => {
       let s;
       try {
         s = await mediaDevices.getUserMedia({
-          video: {facingMode: 'environment',width: { ideal: 640 },
-          height: { ideal: 480 },frameRate: { ideal: 30, max: 30}},
+          video: {
+            facingMode: 'environment',
+            frameRate: { ideal: 60 }, // Set the desired frame rate
+          },
           audio: false,
         });
         setStream(s);
@@ -164,8 +166,8 @@ const styles = StyleSheet.create({
   },
   stream2: {
     flex: 1,
-    width: 400,
-    height: 400,
+    width: "100%",
+    height: "100%",
   }
   ,
   footer: {

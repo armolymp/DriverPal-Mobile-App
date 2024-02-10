@@ -64,19 +64,30 @@ export default function App() {
 const DigitalPanel = ({ value }) => {
   return (
     <View style={styles.digitalPanel}>
-      <Svg height="100%" width="100%">
-        <SvgText
-          x="50%"
-          y="50%"
-          fontSize="200"
-          textAnchor="middle"
-          fill="white"
-          fontFamily="Arial"
-        >
-          {value}
-        </SvgText>
-      </Svg>
-    </View>
+    <Svg height="100%" width="100%">
+      <SvgText
+        x="50%"
+        y="50%"
+        fontSize="200"
+        textAnchor="middle"
+        fill="white"
+        fontFamily="Arial"
+      >
+        {value}
+      </SvgText>
+      {/* Adding Kmph text below the value */}
+      <SvgText
+        x="50%"
+        y="70%"  
+        fontSize="50"
+        textAnchor="middle"
+        fill="white"
+        fontFamily="Arial"
+      >
+        Kmph
+      </SvgText>
+    </Svg>
+  </View>
   );
 };
 

@@ -1,25 +1,40 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { WebView } from 'react-native-webview';
+import React, { useState } from 'react';
+import { View, Text, Button } from 'react-native';
 
-const DriverAssistant = () => {
+const MyWebSocketComponent = () => {
+  const [ws, setWs] = useState(null);
+
+  const handleOpenConnection = () => {
+    const newWs = new WebSocket('https://4784-2402-d000-a400-bd99-485b-cad1-3bfb-8345.ngrok-free.app');
+    newWs.onopen = () => {
+      console.log('WebSocket connection opened');
+      newWs.send('Hello, server!');
+    };
+    newWs.onmessage = (event) => {
+      console.log(`Received: ${event.data}`);
+      // Handle the received data as needed
+    };
+    newWs.onclose = () => {
+      console.log('WebSocket connection closed');
+    };
+    setWs(newWs);
+  };
+
+  const handleCloseConnection = () => {
+    if (ws) {
+      ws.close();
+      setWs(null);
+    }
+  };
+
   return (
-    <View style={styles.container}>
-      <WebView
-        source={{ uri: 'https://453a-2402-d000-a400-f586-d1a5-b62c-fce-755e.ngrok-free.app' }} // Replace with your desired URL
-        style={styles.webview}
-      />
+    <View>
+      <Text>WebSocket Example in React Native</Text>
+      <Button title="Open Connection" onPress={handleOpenConnection} />
+      <Button title="Close Connection" onPress={handleCloseConnection} />
+      {/* Add your UI components here */}
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1, // Take up the entire screen
-  },
-  webview: {
-    flex: 1, // Take up the entire container
-  },
-});
-
-export default DriverAssistant;
+export default MyWebSocketComponent;

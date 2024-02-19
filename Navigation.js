@@ -10,6 +10,8 @@ import Login from "./Screens/LoginScreen";
 import LoginScreen from "./Screens/LoginScreen";
 import Registration from "./Screens/Registration";
 import DriverAssistant5 from "./Screens/DriverAssistant5";
+import DSwithWS from "./Screens/DSwithWS"
+import tts from "./Screens/tts"
 
 
 const Stack = createNativeStackNavigator();
@@ -45,7 +47,7 @@ export const Navigation = () => {
           />
           <Stack.Screen
             name={'DriverAssistant'}
-            component={DriverAssistant5}
+            component={DSwithWS}
             options={{
               title: 'Real Time Driver Assistant',
               headerTitleAlign: 'center',

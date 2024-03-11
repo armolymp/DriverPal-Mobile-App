@@ -22,7 +22,7 @@ const LoginScreen = ({ navigation }) => {
       return;
     }
     
-    fetch("http://192.168.1.194:5000/login", {
+    fetch("http://192.168.1.194:8084/login", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

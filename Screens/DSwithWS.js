@@ -9,6 +9,7 @@ import {
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import { mediaDevices, RTCView, RTCPeerConnection } from "react-native-webrtc";
 import TTS from 'react-native-tts';
+import signs from "./TrafficSigns";
 
 const App = () => {
   const [stream, setStream] = useState(null);
@@ -47,16 +48,26 @@ const App = () => {
   //   console.log(stream)
   //   console.log('--------------------stream------------------------')
   // },[stream])
+  let track = 0;
 
   function startServer() {
-    const newWs = new WebSocket('https://cb13-2402-d000-a500-3f00-5fe-73d3-9dca-3b82.ngrok-free.app');
+    const newWs = new WebSocket('ws://192.168.1.194:5000');
     newWs.onopen = () => {
       console.log('WebSocket connection opened');
       newWs.send('Hello, server!');
     };
     newWs.onmessage = (event) => {
       console.log(`Received: ${event.data}`);
-      TTS.speak(event.data.toString())
+      // TTS.speak(event.data.toString())
+      const signText = signs.find(sign => sign.id === event.data.toString());
+      if(track === 0) {
+        TTS.speak(signText.text)
+        track = 1;
+        setTimeout(() => {
+          track = 0;
+      }, 10000);
+      }
+      
     };
     newWs.onclose = () => {
       console.log('WebSocket connection closed');
